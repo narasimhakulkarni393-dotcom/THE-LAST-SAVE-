@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE LAST SAVE</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Main Game Canvas -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- UI Layer (HTML overlays) -->
+  <div id="ui-layer">
+
+    <!-- MAIN MENU -->
+    <div id="main-menu" class="screen">
+      <div class="menu-bg-overlay"></div>
+      <div class="menu-content">
+        <div class="title-block">
+          <h1 class="game-title">THE LAST SAVE</h1>
+          <p class="game-tagline">"Some memories should stay dead."</p>
+          <div class="static-bar"></div>
+        </div>
+        <nav class="menu-nav">
+          <button class="menu-btn" id="btn-new-game">NEW GAME</button>
+          <button class="menu-btn" id="btn-continue" disabled>CONTINUE</button>
+          <button class="menu-btn" id="btn-how-to-play">HOW TO PLAY</button>
+          <button class="menu-btn" id="btn-settings">SETTINGS</button>
+          <button class="menu-btn" id="btn-credits">CREDITS</button>
+          <button class="menu-btn" id="btn-quit">QUIT</button>
+        </nav>
+        <div class="idle-message" id="idle-msg"></div>
+        <div class="menu-footer">THE WORST GAME WINS — 2024</div>
+      </div>
+    </div>
+
+    <!-- HOW TO PLAY -->
+    <div id="how-to-play" class="screen hidden">
+      <div class="panel">
+        <h2>HOW TO PLAY</h2>
+        <div class="controls-list">
+          <div class="control-row"><span class="key">W</span><span class="desc">Move Backward (?)</span></div>
+          <div class="control-row"><span class="key">S</span><span class="desc">Move Forward (We think)</span></div>
+          <div class="control-row"><span class="key">A</span><span class="desc">Turn Right (Probably)</span></div>
+          <div class="control-row"><span class="key">D</span><span class="desc">Turn Left (Maybe)</span></div>
+          <div class="control-row"><span class="key">E</span><span class="desc">Interact / Do The Thing</span></div>
+          <div class="control-row"><span class="key">I</span><span class="desc">Inventory (It's complicated)</span></div>
+          <div class="control-row"><span class="key">ESC</span><span class="desc">Pause (If you dare)</span></div>
+          <div class="control-row"><span class="key">F</span><span class="desc">Flashlight (Toggle)</span></div>
+          <div class="control-row"><span class="key">SPACE</span><span class="desc">Sprint (For a bit)</span></div>
+        </div>
+        <div class="how-note">
+          NOTE: Controls were designed by our Lead Designer who has never played a video game.<br/>
+          We apologize for any confusion this may cause.<br/>
+          We do not apologize for the door system.
+        </div>
+        <button class="menu-btn" id="btn-htp-back">BACK</button>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settings-screen" class="screen hidden">
+      <div class="panel">
+        <h2>SETTINGS</h2>
+        <div class="settings-grid">
+          <label>Brightness <input type="range" id="set-brightness" min="0" max="100" value="50" /></label>
+          <label>Darkness <input type="range" id="set-darkness" min="0" max="100" value="50" /></label>
+          <label>Slightly More Darkness <input type="range" id="set-sdarkness" min="0" max="100" value="30" /></label>
+          <label>Horror <input type="range" id="set-horror" min="0" max="100" value="70" /></label>
+          <label>Extra Horror <input type="range" id="set-ehorrror" min="0" max="100" value="40" /></label>
+          <label>Extremely Unnecessary Horror <input type="range" id="set-xhorror" min="0" max="100" value="20" /></label>
+          <label>Footstep Volume <input type="range" id="set-footstep" min="0" max="100" value="60" /></label>
+          <label>Door Volume <input type="range" id="set-door" min="0" max="100" value="80" /></label>
+          <label>Door Opening Speed <input type="range" id="set-doorspeed" min="1" max="10" value="1" /></label>
+          <label>NPC Intelligence <input type="range" id="set-npc-iq" min="0" max="100" value="12" /></label>
+          <label>NPC Confusion <input type="range" id="set-npc-conf" min="0" max="100" value="88" /></label>
+          <label>Existential Dread <input type="range" id="set-dread" min="0" max="100" value="95" /></label>
+          <label>Music Volume <input type="range" id="set-music" min="0" max="100" value="50" /></label>
+          <label>SFX Volume <input type="range" id="set-sfx" min="0" max="100" value="70" /></label>
+          <label>Fullscreen <input type="checkbox" id="set-fullscreen" /></label>
+        </div>
+        <div class="settings-note">WARNING: Adjusting "Existential Dread" above 90 may cause side effects.<br/>Side effects may include: finishing the game, thinking about it later, calling a family member.</div>
+        <button class="menu-btn" id="btn-settings-back">BACK</button>
+      </div>
+    </div>
+
+    <!-- CREDITS -->
+    <div id="credits-screen" class="screen hidden">
+      <div class="panel credits-panel">
+        <h2>THE LAST SAVE</h2>
+        <p class="credits-subtitle">A game made for <strong>THE WORST GAME WINS</strong></p>
+        <div class="credits-block">
+          <div class="credits-role">Game Design (Lead Terrible Decision Maker)</div>
+          <div class="credits-name">R. Horrible</div>
+          <div class="credits-role">Programming (Principal Spaghetti Engineer)</div>
+          <div class="credits-name">C. Debugsworth</div>
+          <div class="credits-role">Narrative (Senior Story Trauma Specialist)</div>
+          <div class="credits-name">E. Angst</div>
+          <div class="credits-role">Art Direction (Low Polygon Enthusiast)</div>
+          <div class="credits-name">P. Ixelsworth</div>
+          <div class="credits-role">Audio (Volume Slider Calibration Expert)</div>
+          <div class="credits-name">N. Oise</div>
+          <div class="credits-role">QA (Professional Game Finisher)</div>
+          <div class="credits-name">B. Ug</div>
+          <div class="credits-role">Door System (Sole Responsible Party)</div>
+          <div class="credits-name">Anonymous</div>
+        </div>
+        <p class="credits-note">No actual memories were harmed in the making of this game.<br/>
+        We cannot confirm the same for emotional wellbeing.</p>
+        <button class="menu-btn" id="btn-credits-back">BACK</button>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div id="hud-top">
+        <div id="hud-sanity">
+          <span class="hud-label">SANITY</span>
+          <div class="hud-bar-bg"><div class="hud-bar" id="sanity-bar"></div></div>
+        </div>
+        <div id="hud-stamina">
+          <span class="hud-label">STAMINA</span>
+          <div class="hud-bar-bg"><div class="hud-bar stamina" id="stamina-bar"></div></div>
+        </div>
+        <div id="hud-flashlight">
+          <span class="hud-label">🔦</span>
+          <div class="hud-bar-bg"><div class="hud-bar flashlight" id="flashlight-bar"></div></div>
+        </div>
+      </div>
+      <div id="hud-objective">
+        <span class="obj-label">OBJECTIVE:</span>
+        <span id="obj-text">Loading objective...</span>
+      </div>
+      <div id="hud-gps">
+        <span id="gps-text">DESTINATION: ???</span>
+      </div>
+      <div id="hud-compass">
+        <div id="compass-needle">▲</div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="notification-container"></div>
+
+    <!-- DIALOGUE -->
+    <div id="dialogue-box" class="hidden">
+      <div id="dialogue-portrait"></div>
+      <div id="dialogue-content">
+        <div id="dialogue-speaker"></div>
+        <div id="dialogue-text"></div>
+        <div id="dialogue-choices"></div>
+        <div id="dialogue-continue">[ PRESS E TO CONTINUE ]</div>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div id="inventory-screen" class="screen hidden">
+      <div class="inventory-panel">
+        <h2>INVENTORY <span class="inv-subtitle">(The Full Horror Experience)</span></h2>
+        <div id="inventory-grid"></div>
+        <div id="item-detail">
+          <div id="item-detail-name">Select an item</div>
+          <div id="item-detail-desc">???</div>
+          <button id="item-use-btn" class="menu-btn small hidden">USE</button>
+        </div>
+        <button class="menu-btn" id="btn-inv-close">CLOSE INVENTORY<br/><small>(you'll regret opening it)</small></button>
+      </div>
+    </div>
+
+    <!-- PAUSE MENU -->
+    <div id="pause-menu" class="screen hidden">
+      <div class="pause-panel">
+        <h2>PAUSED</h2>
+        <p class="pause-sub">The game is waiting for you.<br/>Unlike Maya.</p>
+        <button class="menu-btn" id="btn-resume">RESUME</button>
+        <button class="menu-btn" id="btn-pause-save">SAVE</button>
+        <button class="menu-btn" id="btn-pause-settings">SETTINGS</button>
+        <button class="menu-btn" id="btn-pause-main">MAIN MENU</button>
+        <button class="menu-btn regret-btn" id="btn-regret">REGRET EVERYTHING</button>
+      </div>
+    </div>
+
+    <!-- DEATH SCREEN -->
+    <div id="death-screen" class="screen hidden">
+      <div class="death-panel">
+        <div id="death-title">YOU DIED.</div>
+        <div id="death-subtitle"></div>
+        <button class="menu-btn" id="btn-try-again">TRY AGAIN</button>
+        <button class="menu-btn" id="btn-death-main">MAIN MENU</button>
+      </div>
+    </div>
+
+    <!-- SAVE DIALOG -->
+    <div id="save-dialog" class="screen hidden">
+      <div class="save-panel">
+        <div id="save-status-text">SAVING...</div>
+        <div class="save-spinner">▓▓▓▓▓▓▓▓░░░░░░░░</div>
+      </div>
+    </div>
+
+    <!-- DOOR ANIMATION OVERLAY -->
+    <div id="door-overlay" class="hidden">
+      <div id="door-status-text">OPENING DOOR...</div>
+      <div class="door-progress-bg"><div class="door-progress-fill" id="door-progress"></div></div>
+    </div>
+
+    <!-- ENDING SCREENS -->
+    <div id="ending-screen" class="screen hidden">
+      <div id="ending-content"></div>
+    </div>
+
+    <!-- INTRO SEQUENCE -->
+    <div id="intro-screen" class="screen hidden">
+      <div id="intro-content">
+        <div id="intro-text"></div>
+      </div>
+    </div>
+
+    <!-- RADIO INTERFERENCE OVERLAY -->
+    <div id="radio-overlay" class="hidden">
+      <div class="radio-static"></div>
+      <div id="radio-text"></div>
+    </div>
+
+    <!-- LOADING -->
+    <div id="loading-screen" class="screen">
+      <div class="loading-content">
+        <div class="loading-title">THE LAST SAVE</div>
+        <div class="loading-bar-bg"><div class="loading-bar-fill" id="loading-fill"></div></div>
+        <div id="loading-tip">Loading existential dread...</div>
+      </div>
+    </div>
+
+  </div><!-- end #ui-layer -->
+
+  <!-- Game Scripts (modular) -->
+  <script src="core/gameState.js"></script>
+  <script src="core/input.js"></script>
+  <script src="core/saveSystem.js"></script>
+  <script src="core/assetManager.js"></script>
+  <script src="systems/audio.js"></script>
+  <script src="systems/notifications.js"></script>
+  <script src="systems/dialogue.js"></script>
+  <script src="systems/inventory.js"></script>
+  <script src="systems/objectives.js"></script>
+  <script src="systems/horror.js"></script>
+  <script src="systems/endings.js"></script>
+  <script src="ui/settings.js"></script>
+  <script src="ui/menu.js"></script>
+  <script src="ui/hud.js"></script>
+  <script src="ui/dialogueUI.js"></script>
+  <script src="player/movement.js"></script>
+  <script src="player/player.js"></script>
+  <script src="entities/behaviorProfiles.js"></script>
+  <script src="entities/npc.js"></script>
+  <script src="entities/creature.js"></script>
+  <script src="entities/maya.js"></script>
+  <script src="world/collision.js"></script>
+  <script src="world/rooms.js"></script>
+  <script src="world/world.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

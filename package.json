@@ -1,0 +1,51 @@
+{
+  "name": "the-last-save",
+  "version": "1.0.0",
+  "description": "THE LAST SAVE - A Psychological Horror Game for THE WORST GAME WINS jam",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --win --x64",
+    "package": "electron-builder --win --x64 --publish never"
+  },
+  "keywords": [
+    "horror",
+    "game",
+    "electron"
+  ],
+  "author": "The Worst Game Wins Team",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.3.3",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.worstgame.thelastsave",
+    "productName": "THE LAST SAVE",
+    "copyright": "Copyright 2024 The Worst Game Wins Team",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "files": [
+      "src/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [],
+    "asar": true
+  },
+  "allowScripts": {
+    "electron@28.3.3": true
+  }
+}
